@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Container, { Icon } from '../../components/Container';
 import api from '../../services/api';
 
 import { Form, SubmitButton, List, ErrorMessage } from './MainStyles';
