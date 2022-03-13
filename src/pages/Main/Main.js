@@ -51,6 +51,8 @@ class Main extends Component {
       };
 
       render() {
+        const { newRepo, loading, repositories, error, errorMessage } = this.state;
+    
         return (
           <Container>
             <Icon>
@@ -66,10 +68,32 @@ class Main extends Component {
                 value={newRepo}
                 onChange={this.handleInputChange}
               />
+              <SubmitButton loading={loading ? 1 : 0} empty={!newRepo}>
+                {loading ? (
+                  <FaSpinner color="#fff" size={14} />
+                ) : (
+                  <FaPlus color="#fff" size={14} />
+                )}
+              </SubmitButton>
             </Form>
     
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     
+            <List>
+              {repositories.map(repo => (
+                <li key={repo.name}>
+                  <div>
+                    <Link to={`/repository/${encodeURIComponent(repo.name)}`}>
+                      <img src={repo.owner.avatar_url} alt={repo.owner.name} />
+                      <span>{repo.name}</span>
+                    </Link>
+                  </div>
+                  <button type="button" onClick={() => this.handleDelete(repo)}>
+                    <FaTrash />
+                  </button>
+                </li>
+              ))}
+            </List>
           </Container>
         );
       }
