@@ -50,6 +50,51 @@ class Main extends Component {
         });
       };
 
+      handleSubmit = async e => {
+        e.preventDefault();
+    
+        this.setState({ loading: true, error: false });
+        
+        try {
+            const { newRepo, repositories } = this.state;
+    
+            if (newRepo === '') throw new Error('Repo masih belum dapat ditemukan.');
+    
+            const response = await api.get(`/repos/${newRepo}`);
+    
+            const data = {
+                name: response.data.full_name,
+                owner: {
+                    name: response.data.owner.login,
+                    avatar_url: response.data.owner.avatar_url,
+                },
+            };
+    
+            const hasRepo = repositories.find(
+                repo => repo.name.toLowerCase() === data.name.toLowerCase()
+            );
+    
+            if (hasRepo) throw new Error('Repo sudah ada sebelumnya.');
+    
+                this.setState({
+                    repositories: [...repositories, data],
+                    newRepo: '',
+                    errorMessage: '',
+                });
+
+        } catch (Error) {
+            this.setState({
+            error: true,
+            errorMessage:
+                Error.message === 'Maaf, data gagal diambil.'
+                ? 'URL Repo Ga ditemuin.'
+                : Error.message,
+            });
+        } finally {
+            this.setState({ loading: false });
+        }
+    };
+
       render() {
         const { newRepo, loading, repositories, error, errorMessage } = this.state;
     
