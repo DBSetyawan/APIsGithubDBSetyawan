@@ -39,20 +39,6 @@ export const SubmitButton = styled.button.attrs(props => ({
       `}
   `;
 
-  
-export const Form = styled.form`
-    margin-top: 30px;
-    display: flex;
-    flex-direction: row;
-    input {
-    flex: 1;
-    border: solid ${props => (props.error ? '2px #e41111' : '1px #eee')};
-    padding: 10px 15px;
-    border-radius: 4px;
-    font-size: 16px;
-    }
-`;
-
 const rotate = keyframes`
 from {
 transform: rotate(0deg)
