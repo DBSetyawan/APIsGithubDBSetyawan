@@ -24,6 +24,22 @@ class Main extends Component {
         errorMessage: '',
       };
 
+      componentDidMount() {
+        const repositories = localStorage.getItem('repositories');
+    
+        repositories && this.setState({ repositories: JSON.parse(repositories) });
+      }
+      
+      handleInputChange = e => {
+        this.setState({ newRepo: e.target.value });
+      };
+    
+      componentDidUpdate(_, prevState) {
+        const { repositories } = this.state;
+    
+        prevState.repositories !== repositories &&
+          localStorage.setItem('repositories', JSON.stringify(repositories));
+      }
 }
 
 export default Main;
