@@ -1,4 +1,20 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { FaStar, FaRegFileAlt, FaGithubAlt, FaSpinner } from 'react-icons/fa';
+import { GoRepoForked, GoArrowLeft, GoArrowRight } from 'react-icons/go';
+import api from '../../services/api';
+import {
+  Loading,
+  Owner,
+  IssueList,
+  FilterList,
+  PageNav,
+  OwnerProfile,
+  RepoInfo,
+  IssueLabel,
+} from './RepositoryStyles';
+import Container, { Icon } from '../../components/Container';
 
 export default class Repository extends Component {
     static propTypes = {
@@ -72,6 +88,101 @@ export default class Repository extends Component {
       await this.setState({ page: action === 'back' ? page - 1 : page + 1 });
       this.loadFilters();
     };
-  
+
+    render() {
+        const { repo, issues, loading, filters, filterIndex, page } = this.state;
+    
+        if (loading) {
+          return (
+            <Container>
+              <Icon>
+                <FaGithubAlt />
+              </Icon>
+              <Loading loading={loading ? 1 : 0}>
+                <FaSpinner />
+              </Loading>
+            </Container>
+          );
+        }
+    
+        return (
+          <Container>
+            <Icon>
+              <FaGithubAlt />
+            </Icon>
+            <Owner>
+              <div>
+                <Link to="/">
+                  <GoArrowLeft /> Kembali
+                </Link>
+              </div>
+              <OwnerProfile>
+                <a
+                  href={repo.owner.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src={repo.owner.avatar_url} alt={repo.owner.login} />
+                </a>
+                <h2>{repo.owner.login}</h2>
+              </OwnerProfile>
+              <RepoInfo>
+                <h1>
+                  <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+                    {repo.name}
+                  </a>
+                </h1>
+                <div>
+                </div>
+                <p>{repo.description}</p>
+              </RepoInfo>
+            </Owner>
+    
+            <IssueList>
+              <FilterList active={filterIndex}>
+                {filters.map((filter, index) => (
+                  <button
+                    type="button"
+                    key={filter.state}
+                    onClick={() => this.handleFilters(index)}
+                  >
+                    {filter.label}
+                  </button>
+                ))}
+              </FilterList>
+              {issues.map(issue => (
+                <li key={String(issue.id)}>
+                  <a
+                    href={issue.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={issue.user.avatar_url} alt={issue.user.login} />
+                    <div>
+                      <strong>
+                        <span>{issue.title}</span>
+                      </strong>
+                      <p> {issue.user.login} </p>
+                    </div>
+                  </a>
+                </li>
+              ))}
+              <PageNav>
+                <button
+                  type="button"
+                  onClick={() => this.handlePage('back')}
+                >
+                  <GoArrowLeft />
+                  Sebelumnya
+                </button>
+                <button type="button" onClick={() => this.handlePage('next')}>
+                  Selanjutnya
+                  <GoArrowRight />
+                </button>
+              </PageNav>
+            </IssueList>
+          </Container>
+        );
+      }
   
 }
