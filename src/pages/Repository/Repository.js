@@ -113,7 +113,7 @@ export default class Repository extends Component {
             <Owner>
               <div>
                 <Link to="/">
-                  <GoArrowLeft /> Kembali
+                  <GoArrowLeft /> Back to Repositories
                 </Link>
               </div>
               <OwnerProfile>
@@ -133,6 +133,27 @@ export default class Repository extends Component {
                   </a>
                 </h1>
                 <div>
+                  {repo.license && (
+                    <span>
+                      <FaRegFileAlt /> {repo.license.name}
+                    </span>
+                  )}
+                  {repo.stargazers_count !== 0 && (
+                    <span>
+                      <FaStar />
+                      {`${Number(repo.stargazers_count).toLocaleString(undefined, {
+                        minimumIntegerDigits: 2,
+                      })} ${repo.stargazers_count === 1 ? 'star' : 'stars'}`}
+                    </span>
+                  )}
+                  {repo.forks !== 0 && (
+                    <span>
+                      <GoRepoForked />
+                      {`${Number(repo.forks_count).toLocaleString()} ${
+                        repo.forks_count === 1 ? 'fork' : 'forks'
+                      }`}
+                    </span>
+                  )}
                 </div>
                 <p>{repo.description}</p>
               </RepoInfo>
@@ -161,6 +182,11 @@ export default class Repository extends Component {
                     <div>
                       <strong>
                         <span>{issue.title}</span>
+                        {issue.labels.map(label => (
+                          <IssueLabel key={String(label.id)} color={label.color}>
+                            {label.name}
+                          </IssueLabel>
+                        ))}
                       </strong>
                       <p> {issue.user.login} </p>
                     </div>
@@ -173,10 +199,10 @@ export default class Repository extends Component {
                   onClick={() => this.handlePage('back')}
                 >
                   <GoArrowLeft />
-                  Sebelumnya
+                  Prev. Page
                 </button>
                 <button type="button" onClick={() => this.handlePage('next')}>
-                  Selanjutnya
+                  Next Page
                   <GoArrowRight />
                 </button>
               </PageNav>
