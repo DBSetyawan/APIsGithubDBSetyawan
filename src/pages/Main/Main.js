@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
-
+import { FaGithubAlt, FaPlus, FaSpinner, FaTrash } from 'react-icons/fa';
 import { Form, SubmitButton, List, ErrorMessage } from './MainStyles';
 import Container, { Icon } from '../../components/Container';
 
