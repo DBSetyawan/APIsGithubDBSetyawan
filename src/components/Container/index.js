@@ -18,3 +18,23 @@ const Container = styled.div`
     border-radius: 0;
   }
 `;
+
+
+export const Icon = styled.h2`
+  position: absolute;
+  left: 50%;
+  bottom: -40px;
+  transform: translateX(-50%);
+  background: white;
+  color: #7159c1;
+  width: 80px;
+  height: 80px;
+  font-size: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 12px 10px -4px rgba(25, 10, 74, 0.23);
+`;
+
+export default Container;
