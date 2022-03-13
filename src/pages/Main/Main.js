@@ -29,7 +29,7 @@ class Main extends Component {
     
         repositories && this.setState({ repositories: JSON.parse(repositories) });
       }
-      
+
       handleInputChange = e => {
         this.setState({ newRepo: e.target.value });
       };
@@ -39,6 +39,39 @@ class Main extends Component {
     
         prevState.repositories !== repositories &&
           localStorage.setItem('repositories', JSON.stringify(repositories));
+      }
+
+      handleDelete = repo => {
+        const { repositories } = this.state;
+        this.setState({
+          repositories: repositories.filter(
+            repository => repository.name !== repo.name
+          ),
+        });
+      };
+
+      render() {
+        return (
+          <Container>
+            <Icon>
+              <FaGithubAlt />
+            </Icon>
+    
+            <h1>GitHub List</h1>
+    
+            <Form onSubmit={this.handleSubmit} error={error ? 1 : 0}>
+              <input
+                type="text"
+                placeholder="Add Repository"
+                value={newRepo}
+                onChange={this.handleInputChange}
+              />
+            </Form>
+    
+            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+    
+          </Container>
+        );
       }
 }
 
