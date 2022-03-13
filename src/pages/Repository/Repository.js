@@ -113,7 +113,7 @@ export default class Repository extends Component {
             <Owner>
               <div>
                 <Link to="/">
-                  <GoArrowLeft /> Back to Repositories
+                  <GoArrowLeft /> Kembali
                 </Link>
               </div>
               <OwnerProfile>
@@ -196,13 +196,14 @@ export default class Repository extends Component {
               <PageNav>
                 <button
                   type="button"
+                  disabled={page < 2}
                   onClick={() => this.handlePage('back')}
                 >
                   <GoArrowLeft />
-                  Prev. Page
+                  Sebelumnya
                 </button>
                 <button type="button" onClick={() => this.handlePage('next')}>
-                  Next Page
+                  Selanjutnya
                   <GoArrowRight />
                 </button>
               </PageNav>
